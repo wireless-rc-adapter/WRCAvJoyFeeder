@@ -89,14 +89,14 @@
       this.lineJoyX2 = new System.Windows.Forms.Panel();
       this.label11 = new System.Windows.Forms.Label();
       this.groupBox3 = new System.Windows.Forms.GroupBox();
-      this.timer1 = new System.Windows.Forms.Timer(this.components);
+      this.timer = new System.Windows.Forms.Timer(this.components);
       this.closeButton = new System.Windows.Forms.Button();
-      this.label1 = new System.Windows.Forms.Label();
-      this.label2 = new System.Windows.Forms.Label();
-      this.label3 = new System.Windows.Forms.Label();
-      this.label4 = new System.Windows.Forms.Label();
-      this.label5 = new System.Windows.Forms.Label();
-      this.label6 = new System.Windows.Forms.Label();
+      this.Ch1Label = new System.Windows.Forms.Label();
+      this.Ch2Label = new System.Windows.Forms.Label();
+      this.Ch3Label = new System.Windows.Forms.Label();
+      this.Ch4Label = new System.Windows.Forms.Label();
+      this.Ch5Label = new System.Windows.Forms.Label();
+      this.Ch6Label = new System.Windows.Forms.Label();
       this.minButton = new System.Windows.Forms.Button();
       this.trayIcon = new System.Windows.Forms.NotifyIcon(this.components);
       this.groupBox1.SuspendLayout();
@@ -755,11 +755,11 @@
       this.groupBox3.Text = "Debug Data";
       this.groupBox3.Visible = false;
       // 
-      // timer1
+      // timer
       // 
-      this.timer1.Enabled = true;
-      this.timer1.Interval = 1000;
-      this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+      this.timer.Enabled = true;
+      this.timer.Interval = 1000;
+      this.timer.Tick += new System.EventHandler(this.timer_Tick);
       // 
       // closeButton
       // 
@@ -778,77 +778,77 @@
       this.closeButton.UseVisualStyleBackColor = false;
       this.closeButton.Click += new System.EventHandler(this.closeButton_Click);
       // 
-      // label1
+      // Ch1Label
       // 
-      this.label1.BackColor = System.Drawing.Color.Transparent;
-      this.label1.Font = new System.Drawing.Font("Impact", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.label1.ForeColor = System.Drawing.Color.White;
-      this.label1.Location = new System.Drawing.Point(148, 31);
-      this.label1.Name = "label1";
-      this.label1.Size = new System.Drawing.Size(64, 29);
-      this.label1.TabIndex = 127;
-      this.label1.Text = "CH 1";
-      this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+      this.Ch1Label.BackColor = System.Drawing.Color.Transparent;
+      this.Ch1Label.Font = new System.Drawing.Font("Impact", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.Ch1Label.ForeColor = System.Drawing.Color.White;
+      this.Ch1Label.Location = new System.Drawing.Point(148, 31);
+      this.Ch1Label.Name = "Ch1Label";
+      this.Ch1Label.Size = new System.Drawing.Size(64, 29);
+      this.Ch1Label.TabIndex = 127;
+      this.Ch1Label.Text = "CH 1";
+      this.Ch1Label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
       // 
-      // label2
+      // Ch2Label
       // 
-      this.label2.BackColor = System.Drawing.Color.Transparent;
-      this.label2.Font = new System.Drawing.Font("Impact", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.label2.ForeColor = System.Drawing.Color.White;
-      this.label2.Location = new System.Drawing.Point(150, 63);
-      this.label2.Name = "label2";
-      this.label2.Size = new System.Drawing.Size(64, 29);
-      this.label2.TabIndex = 128;
-      this.label2.Text = "CH 2";
-      this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+      this.Ch2Label.BackColor = System.Drawing.Color.Transparent;
+      this.Ch2Label.Font = new System.Drawing.Font("Impact", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.Ch2Label.ForeColor = System.Drawing.Color.White;
+      this.Ch2Label.Location = new System.Drawing.Point(150, 63);
+      this.Ch2Label.Name = "Ch2Label";
+      this.Ch2Label.Size = new System.Drawing.Size(64, 29);
+      this.Ch2Label.TabIndex = 128;
+      this.Ch2Label.Text = "CH 2";
+      this.Ch2Label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
       // 
-      // label3
+      // Ch3Label
       // 
-      this.label3.BackColor = System.Drawing.Color.Transparent;
-      this.label3.Font = new System.Drawing.Font("Impact", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.label3.ForeColor = System.Drawing.Color.White;
-      this.label3.Location = new System.Drawing.Point(150, 94);
-      this.label3.Name = "label3";
-      this.label3.Size = new System.Drawing.Size(64, 29);
-      this.label3.TabIndex = 129;
-      this.label3.Text = "CH 3";
-      this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+      this.Ch3Label.BackColor = System.Drawing.Color.Transparent;
+      this.Ch3Label.Font = new System.Drawing.Font("Impact", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.Ch3Label.ForeColor = System.Drawing.Color.White;
+      this.Ch3Label.Location = new System.Drawing.Point(150, 94);
+      this.Ch3Label.Name = "Ch3Label";
+      this.Ch3Label.Size = new System.Drawing.Size(64, 29);
+      this.Ch3Label.TabIndex = 129;
+      this.Ch3Label.Text = "CH 3";
+      this.Ch3Label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
       // 
-      // label4
+      // Ch4Label
       // 
-      this.label4.BackColor = System.Drawing.Color.Transparent;
-      this.label4.Font = new System.Drawing.Font("Impact", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.label4.ForeColor = System.Drawing.Color.White;
-      this.label4.Location = new System.Drawing.Point(149, 126);
-      this.label4.Name = "label4";
-      this.label4.Size = new System.Drawing.Size(64, 29);
-      this.label4.TabIndex = 130;
-      this.label4.Text = "CH 4";
-      this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+      this.Ch4Label.BackColor = System.Drawing.Color.Transparent;
+      this.Ch4Label.Font = new System.Drawing.Font("Impact", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.Ch4Label.ForeColor = System.Drawing.Color.White;
+      this.Ch4Label.Location = new System.Drawing.Point(149, 126);
+      this.Ch4Label.Name = "Ch4Label";
+      this.Ch4Label.Size = new System.Drawing.Size(64, 29);
+      this.Ch4Label.TabIndex = 130;
+      this.Ch4Label.Text = "CH 4";
+      this.Ch4Label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
       // 
-      // label5
+      // Ch5Label
       // 
-      this.label5.BackColor = System.Drawing.Color.Transparent;
-      this.label5.Font = new System.Drawing.Font("Impact", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.label5.ForeColor = System.Drawing.Color.White;
-      this.label5.Location = new System.Drawing.Point(150, 158);
-      this.label5.Name = "label5";
-      this.label5.Size = new System.Drawing.Size(64, 29);
-      this.label5.TabIndex = 131;
-      this.label5.Text = "CH 5";
-      this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+      this.Ch5Label.BackColor = System.Drawing.Color.Transparent;
+      this.Ch5Label.Font = new System.Drawing.Font("Impact", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.Ch5Label.ForeColor = System.Drawing.Color.White;
+      this.Ch5Label.Location = new System.Drawing.Point(150, 158);
+      this.Ch5Label.Name = "Ch5Label";
+      this.Ch5Label.Size = new System.Drawing.Size(64, 29);
+      this.Ch5Label.TabIndex = 131;
+      this.Ch5Label.Text = "CH 5";
+      this.Ch5Label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
       // 
-      // label6
+      // Ch6Label
       // 
-      this.label6.BackColor = System.Drawing.Color.Transparent;
-      this.label6.Font = new System.Drawing.Font("Impact", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.label6.ForeColor = System.Drawing.Color.White;
-      this.label6.Location = new System.Drawing.Point(150, 190);
-      this.label6.Name = "label6";
-      this.label6.Size = new System.Drawing.Size(64, 29);
-      this.label6.TabIndex = 132;
-      this.label6.Text = "CH 6";
-      this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+      this.Ch6Label.BackColor = System.Drawing.Color.Transparent;
+      this.Ch6Label.Font = new System.Drawing.Font("Impact", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.Ch6Label.ForeColor = System.Drawing.Color.White;
+      this.Ch6Label.Location = new System.Drawing.Point(150, 190);
+      this.Ch6Label.Name = "Ch6Label";
+      this.Ch6Label.Size = new System.Drawing.Size(64, 29);
+      this.Ch6Label.TabIndex = 132;
+      this.Ch6Label.Text = "CH 6";
+      this.Ch6Label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
       // 
       // minButton
       // 
@@ -869,12 +869,10 @@
       // 
       // trayIcon
       // 
-      this.trayIcon.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
-      this.trayIcon.BalloonTipText = "Minimized to the system tray, double click to open it again.";
-      this.trayIcon.BalloonTipTitle = "Wireless RC Adapter";
       this.trayIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("trayIcon.Icon")));
       this.trayIcon.Text = "Wireless RC Adapter";
-      this.trayIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon_MouseDoubleClick);
+      this.trayIcon.Visible = true;
+      this.trayIcon.MouseClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon_MouseClick);
       // 
       // MainForm
       // 
@@ -884,12 +882,12 @@
       this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
       this.ClientSize = new System.Drawing.Size(512, 278);
       this.Controls.Add(this.minButton);
-      this.Controls.Add(this.label6);
-      this.Controls.Add(this.label5);
-      this.Controls.Add(this.label4);
-      this.Controls.Add(this.label3);
-      this.Controls.Add(this.label2);
-      this.Controls.Add(this.label1);
+      this.Controls.Add(this.Ch6Label);
+      this.Controls.Add(this.Ch5Label);
+      this.Controls.Add(this.Ch4Label);
+      this.Controls.Add(this.Ch3Label);
+      this.Controls.Add(this.Ch2Label);
+      this.Controls.Add(this.Ch1Label);
       this.Controls.Add(this.closeButton);
       this.Controls.Add(this.groupBox3);
       this.Controls.Add(this.groupBox2);
@@ -901,6 +899,7 @@
       this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
       this.MaximizeBox = false;
       this.Name = "MainForm";
+      this.ShowInTaskbar = false;
       this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
       this.Text = "Wireless RC Adapter";
       this.TransparencyKey = System.Drawing.Color.Lime;
@@ -979,16 +978,16 @@
     private System.Windows.Forms.ColumnHeader columnHeader3;
     private System.Windows.Forms.ColumnHeader columnHeader4;
     private System.Windows.Forms.ColumnHeader columnHeader5;
-    private System.Windows.Forms.Timer timer1;
+    private System.Windows.Forms.Timer timer;
     //internal System.Windows.Forms.Button openGamePad;
     private System.Windows.Forms.MaskedTextBox serialBaud;
     private System.Windows.Forms.Button closeButton;
-    private System.Windows.Forms.Label label1;
-    private System.Windows.Forms.Label label2;
-    private System.Windows.Forms.Label label3;
-    private System.Windows.Forms.Label label4;
-    private System.Windows.Forms.Label label5;
-    private System.Windows.Forms.Label label6;
+    private System.Windows.Forms.Label Ch1Label;
+    private System.Windows.Forms.Label Ch2Label;
+    private System.Windows.Forms.Label Ch3Label;
+    private System.Windows.Forms.Label Ch4Label;
+    private System.Windows.Forms.Label Ch5Label;
+    private System.Windows.Forms.Label Ch6Label;
     private System.Windows.Forms.Button minButton;
     private System.Windows.Forms.NotifyIcon trayIcon;
   }
