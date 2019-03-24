@@ -1,4 +1,10 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO.Ports;
 using vJoyInterfaceWrap;
@@ -21,6 +27,31 @@ namespace WRCAvJoyFeeder
     }
 
 
+    // Handler function for window size change events
+    private void MainForm_Resize(object sender, EventArgs e)
+    {
+      if (this.WindowState == FormWindowState.Minimized)
+      {
+        this.Hide();  // Hide taskbar icon
+        trayIcon.Visible = true;  // Show system tray icon
+        
+        // TODO only show balloon for the first time
+        
+        trayIcon.ShowBalloonTip(1000);  // Show the balloon tip when minimized
+      }
+    }
+
+
+    // Handler function for system tray
+    private void notifyIcon_MouseDoubleClick(object sender, MouseEventArgs e)
+    {
+      this.Show();  // Show taskbar icon
+      this.WindowState = FormWindowState.Normal;  // Restore window state (Unminimize)
+      trayIcon.Visible = false;  // Hide the system tray icon
+    }
+
+
+    // Connect button handler function
     private void serialConnect_Click(object sender, EventArgs e)
     {
       if (serialConnect.Text == "Start")

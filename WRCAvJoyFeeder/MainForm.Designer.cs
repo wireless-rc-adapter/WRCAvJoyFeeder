@@ -69,7 +69,6 @@
       this.label14 = new System.Windows.Forms.Label();
       this.list_SerialPorts = new System.Windows.Forms.ComboBox();
       this.groupBox1 = new System.Windows.Forms.GroupBox();
-      //this.openGamePad = new System.Windows.Forms.Button();
       this.groupBox2 = new System.Windows.Forms.GroupBox();
       this.listView1 = new System.Windows.Forms.ListView();
       this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -99,6 +98,7 @@
       this.label5 = new System.Windows.Forms.Label();
       this.label6 = new System.Windows.Forms.Label();
       this.minButton = new System.Windows.Forms.Button();
+      this.trayIcon = new System.Windows.Forms.NotifyIcon(this.components);
       this.groupBox1.SuspendLayout();
       this.groupBox2.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.lightAux1)).BeginInit();
@@ -516,18 +516,6 @@
       this.groupBox1.TabStop = false;
       this.groupBox1.Text = "Wireless RC Adapter";
       // 
-      // openGamePad
-      // 
-      //this.openGamePad.Cursor = System.Windows.Forms.Cursors.Hand;
-      //this.openGamePad.Location = new System.Drawing.Point(21, 46);
-      //this.openGamePad.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-      //this.openGamePad.Name = "openGamePad";
-      //this.openGamePad.Size = new System.Drawing.Size(201, 40);
-      //this.openGamePad.TabIndex = 110;
-      //this.openGamePad.Text = "Joystick Settings";
-      //this.openGamePad.UseVisualStyleBackColor = true;
-      //this.openGamePad.Click += new System.EventHandler(this.openGamePad_Click);
-      // 
       // groupBox2
       // 
       this.groupBox2.Controls.Add(this.listView1);
@@ -554,11 +542,11 @@
       this.listView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
       this.listView1.CheckBoxes = true;
       this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-this.columnHeader1,
-this.columnHeader2,
-this.columnHeader3,
-this.columnHeader4,
-this.columnHeader5});
+            this.columnHeader1,
+            this.columnHeader2,
+            this.columnHeader3,
+            this.columnHeader4,
+            this.columnHeader5});
       this.listView1.Cursor = System.Windows.Forms.Cursors.Hand;
       this.listView1.FullRowSelect = true;
       this.listView1.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
@@ -723,7 +711,6 @@ this.columnHeader5});
       // 
       // groupBox3
       // 
-      //this.groupBox3.Controls.Add(this.openGamePad);
       this.groupBox3.Controls.Add(this.label15);
       this.groupBox3.Controls.Add(this.label7);
       this.groupBox3.Controls.Add(this.label8);
@@ -773,9 +760,8 @@ this.columnHeader5});
       this.timer1.Enabled = true;
       this.timer1.Interval = 1000;
       this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-
       // 
-      // Close Button
+      // closeButton
       // 
       this.closeButton.BackColor = System.Drawing.Color.DarkOrange;
       this.closeButton.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -863,9 +849,8 @@ this.columnHeader5});
       this.label6.TabIndex = 132;
       this.label6.Text = "CH 6";
       this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-
       // 
-      // Minimize Button
+      // minButton
       // 
       this.minButton.BackColor = System.Drawing.Color.DarkOrange;
       this.minButton.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -881,7 +866,15 @@ this.columnHeader5});
       this.minButton.TextAlign = System.Drawing.ContentAlignment.TopCenter;
       this.minButton.UseVisualStyleBackColor = false;
       this.minButton.Click += new System.EventHandler(this.minButton_Click);
-
+      // 
+      // trayIcon
+      // 
+      this.trayIcon.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+      this.trayIcon.BalloonTipText = "Minimized to the system tray, double click to open it again.";
+      this.trayIcon.BalloonTipTitle = "Wireless RC Adapter";
+      this.trayIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("trayIcon.Icon")));
+      this.trayIcon.Text = "Wireless RC Adapter";
+      this.trayIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon_MouseDoubleClick);
       // 
       // MainForm
       // 
@@ -912,6 +905,7 @@ this.columnHeader5});
       this.Text = "Wireless RC Adapter";
       this.TransparencyKey = System.Drawing.Color.Lime;
       this.Load += new System.EventHandler(this.MainForm_Load);
+      this.Resize += new System.EventHandler(this.MainForm_Resize);
       this.groupBox1.ResumeLayout(false);
       this.groupBox1.PerformLayout();
       this.groupBox2.ResumeLayout(false);
@@ -996,5 +990,6 @@ this.columnHeader5});
     private System.Windows.Forms.Label label5;
     private System.Windows.Forms.Label label6;
     private System.Windows.Forms.Button minButton;
+    private System.Windows.Forms.NotifyIcon trayIcon;
   }
 }
