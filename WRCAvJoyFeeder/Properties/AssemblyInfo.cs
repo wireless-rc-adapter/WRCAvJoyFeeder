@@ -5,13 +5,13 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("WRCAvJoyFeeder")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Wireless RC Adapter")]
+[assembly: AssemblyDescription("Arduino USB-Joystick adapter for RC receivers with PWM and PPM modulations up to 8 channels.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("WRCAvJoyFeeder")]
-[assembly: AssemblyCopyright("Copyright ©  2019")]
-[assembly: AssemblyTrademark("")]
+[assembly: AssemblyProduct("Wireless RC Adapter")]
+[assembly: AssemblyCopyright("GregNau @ 2019")]
+[assembly: AssemblyTrademark("http://wireless-rc-adapter.github.io")]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
