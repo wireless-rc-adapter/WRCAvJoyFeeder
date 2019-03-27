@@ -6,5 +6,8 @@
   		<Unmanaged32Assemblies>
     		vJoyInterface
   		</Unmanaged32Assemblies>
+  		<Unmanaged64Assemblies>
+    		vJoyInterface
+  		</Unmanaged64Assemblies>
 	</Costura>
 </Weavers>

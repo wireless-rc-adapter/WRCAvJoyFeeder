@@ -87,17 +87,6 @@ namespace WRCAvJoyFeeder
           list_SerialPorts.Enabled = false;  // Disable serial port selector
           serialBaud.Enabled = false;  // Disable baud rate input box
 
-          // Create the joystick object and position structure
-          //axis_e_x.Text = ujoyStick.GetVJDAxisExist(uJoyId, HID_USAGES.HID_USAGE_X).ToString();
-          //axis_e_y.Text = ujoyStick.GetVJDAxisExist(uJoyId, HID_USAGES.HID_USAGE_Y).ToString();
-          //axis_e_z.Text = ujoyStick.GetVJDAxisExist(uJoyId, HID_USAGES.HID_USAGE_Z).ToString();
-          //axis_e_rz.Text = ujoyStick.GetVJDAxisExist(uJoyId, HID_USAGES.HID_USAGE_RZ).ToString();
-          //axis_e_ry.Text = ujoyStick.GetVJDAxisExist(uJoyId, HID_USAGES.HID_USAGE_RY).ToString();
-          //axis_e_s1.Text = ujoyStick.GetVJDAxisExist(uJoyId, HID_USAGES.HID_USAGE_SL0).ToString();
-          //button_e.Text = ujoyStick.GetVJDButtonNumber(uJoyId).ToString();
-          //cpov_e.Text = ujoyStick.GetVJDContPovNumber(uJoyId).ToString();
-          //dpov_e.Text = ujoyStick.GetVJDDiscPovNumber(uJoyId).ToString();
-
           ujoyStick.GetVJDAxisMax(uJoyId, HID_USAGES.HID_USAGE_X, ref joyMax);
           ujoyStick.GetVJDAxisMin(uJoyId, HID_USAGES.HID_USAGE_X, ref joyMin);
 
@@ -151,16 +140,19 @@ namespace WRCAvJoyFeeder
       }
     }
 
+
     private void serialConnect_MouseEnter(object sender, EventArgs e)
     {
       serialConnect.ForeColor = Color.Navy;
     }
+
 
     private void serialConnect_MouseLeave(object sender, EventArgs e)
     {
       serialConnect.ForeColor = Color.White;
 
     }
+
 
     private void channelLabels_Enable(Boolean state)
     {
@@ -310,13 +302,6 @@ namespace WRCAvJoyFeeder
     }
 
 
-    //public static int ConvertRange(int originalStart, int originalEnd, int newStart, int newEnd, int value)
-    //{
-    //    double scale = (double)(newEnd - newStart) / (originalEnd - originalStart);
-    //    return (int)(newStart + ((value - originalStart) * scale));
-    //}
-
-
     public void comRefresh()
     {
       string text = "";
@@ -392,6 +377,7 @@ namespace WRCAvJoyFeeder
     }
 
 
+    // Calibration button handler function
     private void calBtn_Click(object sender, EventArgs e)
     {
         System.Diagnostics.Process.Start("rundll32.exe", "shell32.dll,Control_RunDLL joy.cpl");
@@ -401,14 +387,18 @@ namespace WRCAvJoyFeeder
     // Close button handler function
     private void closeButton_Click(object sender, EventArgs e)
     {
+      // TODO make confirmation dialog when connected
+      // TODO properly close connection and port before exiting
       this.Close();
     }
+
 
     // Minimize button handler function
     private void minButton_Click(object sender, EventArgs e)
     {
       this.WindowState = FormWindowState.Minimized;
     }
+
 
     // Make window draggable to move
     protected override void WndProc(ref Message m)
@@ -447,10 +437,12 @@ namespace WRCAvJoyFeeder
     //  }
     //}
 
+
     private void calBtn_MouseEnter(object sender, EventArgs e)
     {
       calBtn.ForeColor = Color.White;
     }
+
 
     private void calBtn_MouseLeave(object sender, EventArgs e)
     {
@@ -458,8 +450,10 @@ namespace WRCAvJoyFeeder
 
     }
 
+
     private void helpBtn_Click(object sender, EventArgs e)
     {
+      // TODO open an about dialog and link to help from there
       System.Diagnostics.Process.Start("http://github.com/wireless-rc-adapter/wireless-rc-adapter/wiki");
     }
   }
