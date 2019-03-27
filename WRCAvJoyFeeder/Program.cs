@@ -6,14 +6,14 @@ using System.Windows.Forms;
 
 namespace WRCAvJoyFeeder
 {
-    static class Program
+  static class Program
+  {
+    /// <summary>
+    /// The main entry point for the application.
+    /// </summary>
+    [STAThread]
+    static void Main()
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        static void Main()
-        {
 
       var exists = System.Diagnostics.Process.GetProcessesByName(System.IO.Path.GetFileNameWithoutExtension(System.Reflection.Assembly.GetEntryAssembly().Location)).Count() > 1;
 
@@ -28,6 +28,6 @@ namespace WRCAvJoyFeeder
         MessageBox.Show("An instance of the app is already running.");
         Application.Exit();
       }
-        }
     }
+  }
 }
