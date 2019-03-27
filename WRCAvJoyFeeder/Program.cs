@@ -14,9 +14,20 @@ namespace WRCAvJoyFeeder
         [STAThread]
         static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm());
+
+      var exists = System.Diagnostics.Process.GetProcessesByName(System.IO.Path.GetFileNameWithoutExtension(System.Reflection.Assembly.GetEntryAssembly().Location)).Count() > 1;
+
+      if (!exists)
+      {
+        Application.EnableVisualStyles();
+        Application.SetCompatibleTextRenderingDefault(false);
+        Application.Run(new MainForm());
+      }
+      else
+      {
+        MessageBox.Show("An instance of the app is already running.");
+        Application.Exit();
+      }
         }
     }
 }

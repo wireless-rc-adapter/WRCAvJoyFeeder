@@ -63,29 +63,9 @@ namespace WRCAvJoyFeeder.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap buttonClosed {
+        internal static System.Drawing.Bitmap background {
             get {
-                object obj = ResourceManager.GetObject("buttonClosed", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap buttonOpen {
-            get {
-                object obj = ResourceManager.GetObject("buttonOpen", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap mainBg {
-            get {
-                object obj = ResourceManager.GetObject("mainBg", resourceCulture);
+                object obj = ResourceManager.GetObject("background", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

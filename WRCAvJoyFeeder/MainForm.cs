@@ -20,6 +20,9 @@ namespace WRCAvJoyFeeder
     public long joyMin = 0;
     public long joyMax = 1;
 
+    // Window first time minimized flag
+    static public bool first_min = false;
+
 
     public MainForm()
     {
@@ -30,25 +33,33 @@ namespace WRCAvJoyFeeder
     // Handler function for window size change events
     private void MainForm_Resize(object sender, EventArgs e)
     {
-      if (this.WindowState == FormWindowState.Minimized)
+      if (this.WindowState == FormWindowState.Minimized && !first_min)
       {
-        // Show the balloon tip when minimized  
-        trayIcon.ShowBalloonTip(1500, "Wireless RC Adapter", "Minimized to the system tray, double click to open it again.", ToolTipIcon.Info);
+        // Show the balloon tip when minimized for the first time
+        trayIcon.ShowBalloonTip(1000, "Wireless RC Adapter", "Minimized to the system tray, double click the icon to open it again.", ToolTipIcon.Info);
+        first_min = true;
       }
     }
 
 
-    // Handler function for system tray
-    private void notifyIcon_MouseClick(object sender, MouseEventArgs e)
+    // Mouse-click handler function for system tray icon
+    private void trayIcon_MouseDoubleClick(object sender, MouseEventArgs e)
     {
-      this.WindowState = FormWindowState.Normal;  // Restore window state (Unminimize)
+      if (this.WindowState == FormWindowState.Minimized)
+      {  // Restore window state when minimized
+        this.WindowState = FormWindowState.Normal;
+      }
+      else
+      {  // Minimize the window when it is not
+        this.WindowState = FormWindowState.Minimized;
+      }
     }
 
 
-    // Connect button handler function
+    // Button handler function for Connect button
     private void serialConnect_Click(object sender, EventArgs e)
     {
-      if (serialConnect.Text == "Start")
+      if (serialConnect.Text == "Connect")
       {
         serialPort1.BaudRate = int.Parse(serialBaud.Text.Replace(" bps", ""));  // Add ' bps' to baud rate value
         serialPort1.PortName = list_SerialPorts.SelectedItem.ToString();
@@ -67,7 +78,9 @@ namespace WRCAvJoyFeeder
           serialPort1.Open();
           timer.Enabled = true;
         }
-        catch (Exception ex) { MessageBox.Show(ex.Message); }
+        catch (Exception ex) {
+          MessageBox.Show(ex.Message);
+        }
 
         if (serialPort1.IsOpen)
         {  // WHEN SERIAL PORT IS CONNECTED
@@ -75,16 +88,15 @@ namespace WRCAvJoyFeeder
           serialBaud.Enabled = false;  // Disable baud rate input box
 
           // Create the joystick object and position structure
-          axis_e_x.Text = ujoyStick.GetVJDAxisExist(uJoyId, HID_USAGES.HID_USAGE_X).ToString();
-          axis_e_y.Text = ujoyStick.GetVJDAxisExist(uJoyId, HID_USAGES.HID_USAGE_Y).ToString();
-          axis_e_rx.Text = ujoyStick.GetVJDAxisExist(uJoyId, HID_USAGES.HID_USAGE_RX).ToString();
-          axis_e_ry.Text = ujoyStick.GetVJDAxisExist(uJoyId, HID_USAGES.HID_USAGE_RY).ToString();
-          axis_e_rz.Text = ujoyStick.GetVJDAxisExist(uJoyId, HID_USAGES.HID_USAGE_RZ).ToString();
-          axis_e_s1.Text = ujoyStick.GetVJDAxisExist(uJoyId, HID_USAGES.HID_USAGE_SL0).ToString();
-          axis_e_s2.Text = ujoyStick.GetVJDAxisExist(uJoyId, HID_USAGES.HID_USAGE_SL1).ToString();
-          button_e.Text = ujoyStick.GetVJDButtonNumber(uJoyId).ToString();
-          cpov_e.Text = ujoyStick.GetVJDContPovNumber(uJoyId).ToString();
-          dpov_e.Text = ujoyStick.GetVJDDiscPovNumber(uJoyId).ToString();
+          //axis_e_x.Text = ujoyStick.GetVJDAxisExist(uJoyId, HID_USAGES.HID_USAGE_X).ToString();
+          //axis_e_y.Text = ujoyStick.GetVJDAxisExist(uJoyId, HID_USAGES.HID_USAGE_Y).ToString();
+          //axis_e_z.Text = ujoyStick.GetVJDAxisExist(uJoyId, HID_USAGES.HID_USAGE_Z).ToString();
+          //axis_e_rz.Text = ujoyStick.GetVJDAxisExist(uJoyId, HID_USAGES.HID_USAGE_RZ).ToString();
+          //axis_e_ry.Text = ujoyStick.GetVJDAxisExist(uJoyId, HID_USAGES.HID_USAGE_RY).ToString();
+          //axis_e_s1.Text = ujoyStick.GetVJDAxisExist(uJoyId, HID_USAGES.HID_USAGE_SL0).ToString();
+          //button_e.Text = ujoyStick.GetVJDButtonNumber(uJoyId).ToString();
+          //cpov_e.Text = ujoyStick.GetVJDContPovNumber(uJoyId).ToString();
+          //dpov_e.Text = ujoyStick.GetVJDDiscPovNumber(uJoyId).ToString();
 
           ujoyStick.GetVJDAxisMax(uJoyId, HID_USAGES.HID_USAGE_X, ref joyMax);
           ujoyStick.GetVJDAxisMin(uJoyId, HID_USAGES.HID_USAGE_X, ref joyMin);
@@ -92,21 +104,23 @@ namespace WRCAvJoyFeeder
           // Acquire the target
           if ((vjoy_status.Text == VjdStat.VJD_STAT_OWN.ToString()) || ((vjoy_status.Text == VjdStat.VJD_STAT_FREE.ToString()) && (!ujoyStick.AcquireVJD(uJoyId))))
           {
-            //vjoy_status.Text = "Failed to acquire vJoy device";
-            trayIcon.ShowBalloonTip(3000, "Wireless RC Adapter", "Error: Failed to acquire vJoy device", ToolTipIcon.Error);
-            //Console.WriteLine(vjoy_status.Text);
+            vjoy_status.Text = "Failed to acquire vJoy device";
+            trayIcon.ShowBalloonTip(3000, "Wireless RC Adapter", "Error: Failed to acquire vJoy device! Make sure there is nothing using it.", ToolTipIcon.Error);
+            Console.WriteLine("Error: Failed to acquire vJoy device!");
             return;
           }
           else
           {
-            //vjoy_status.Text = "Acquired: vJoy device";
-            trayIcon.ShowBalloonTip(1500, "Wireless RC Adapter", "Connected", ToolTipIcon.Info);
-            //Console.WriteLine(vjoy_status.Text);
+            vjoy_status.Text = "Acquired: vJoy device";
+            trayIcon.ShowBalloonTip(1000, "Wireless RC Adapter", "Connected", ToolTipIcon.Info);
+            Console.WriteLine("Debug: Succesfully connected.");
+            calBtn.Enabled = true;
+            channelLabels_Enable(true);
           }
 
 
           ujoyStick.ResetVJD(uJoyId);  // Reset joystick states
-          serialConnect.Text = "Stop";  // Change button text on connection
+          serialConnect.Text = "Disconnect";  // Change button text on connection
           timer.Enabled = false;  // Disable the timer for updating available com ports
           list_SerialPorts.Enabled = false;  // Disable serial port chooser
           serialBaud.Enabled = false;  // Disable baud rate input box
@@ -114,9 +128,12 @@ namespace WRCAvJoyFeeder
       }
       else
       {  // WHEN SERIAL PORT IS DISCONNECTED
-        trayIcon.ShowBalloonTip(1500, "Wireless RC Adapter", "Disconnected", ToolTipIcon.Info);
         serialConnect.Enabled = true;
+        calBtn.Enabled = false;
+        channelLabels_Enable(false);
         serialPort1.Close();
+        trayIcon.ShowBalloonTip(1000, "Wireless RC Adapter", "Disconnected", ToolTipIcon.Info);
+        Console.WriteLine("Debug: Adapter disconnected.");
 
         if (serialPort1.IsOpen == false)
         {
@@ -124,14 +141,35 @@ namespace WRCAvJoyFeeder
           serialConnect.Enabled = true;
           list_SerialPorts.Enabled = true;
           serialBaud.Enabled = true;
-          serialConnect.Text = "Start";
+          serialConnect.Text = "Connect";
         }
         else {
           // TODO set vjoy_status instead MessageBox
           //MessageBox.Show("Error disconnecting");
-          trayIcon.ShowBalloonTip(3000, "Wireless RC Adapter", "Error: Can not open serial port", ToolTipIcon.Error);
+          trayIcon.ShowBalloonTip(3000, "Wireless RC Adapter", "Error: Can not open serial port! Make sure there is nothing using it.", ToolTipIcon.Error);
         }
       }
+    }
+
+    private void serialConnect_MouseEnter(object sender, EventArgs e)
+    {
+      serialConnect.ForeColor = Color.Navy;
+    }
+
+    private void serialConnect_MouseLeave(object sender, EventArgs e)
+    {
+      serialConnect.ForeColor = Color.White;
+
+    }
+
+    private void channelLabels_Enable(Boolean state)
+    {
+      Ch1Label.Enabled = state;
+      Ch2Label.Enabled = state;
+      Ch3Label.Enabled = state;
+      Ch4Label.Enabled = state;
+      Ch5Label.Enabled = state;
+      Ch6Label.Enabled = state;
     }
 
 
@@ -144,14 +182,12 @@ namespace WRCAvJoyFeeder
       if (!ujoyStick.vJoyEnabled())
       {
         //vjoy_status.Text = "vJoy driver not enabled";
-        trayIcon.ShowBalloonTip(3000, "Wireless RC Adapter", "Error: vJoy driver not enabled", ToolTipIcon.Error);
+        trayIcon.ShowBalloonTip(3000, "Wireless RC Adapter", "Error: vJoy driver not enabled, exiting! Please enable and re-launch application.", ToolTipIcon.Error);
+        Console.WriteLine("Error: vJoy driver not enabled!");
         Application.Exit();
       }
 
       vjoy_status.Text = ujoyStick.GetVJDStatus(uJoyId).ToString();
-      //vjoy_vendor.Text = ujoyStick.GetvJoyManufacturerString();
-      //vjoy_product.Text = ujoyStick.GetvJoyProductString();
-      //vjoy_version.Text = ujoyStick.GetvJoySerialNumberString();
 
       // Check driver and library dll version
       UInt32 DllVer = 0, DrvVer = 0;
@@ -159,19 +195,19 @@ namespace WRCAvJoyFeeder
 
       if (match)
       {
-        vjoy_dllver.Text = DllVer.ToString();
-        vjoy_drvver.Text = DrvVer.ToString();
-        //Console.WriteLine("DLL: " + vjoy_dllver.Text);
-        //Console.WriteLine("DRV: " + vjoy_drvver.Text);
+        String vjoy_dllver = DllVer.ToString();
+        String vjoy_drvver = DrvVer.ToString();
+        Console.WriteLine("Debug: DLL(v" + vjoy_dllver + "), DRV(v" + vjoy_drvver + ")");
       }
       else
       {
         vjoy_status.Text = "DLL MISMATCH";
-        trayIcon.ShowBalloonTip(3000, "Wireless RC Adapter", "Error: vJoy dll mismatch", ToolTipIcon.Error);
+        trayIcon.ShowBalloonTip(3000, "Wireless RC Adapter", "Error: Dll version mismatc!. Please install latest vJoy driver.", ToolTipIcon.Error);
+        Console.WriteLine("Error: Dll version mismatch! Please install latest vJoy driver.");
       }
 
       comRefresh();
-      fillListView(new string[] { "Throttle", "Rudder", "Aileron", "Elevator", "Gear", "Aux 1" }, new int[] { 0, 0, 0, 0, 0, 0 });
+      fillListView(new string[] { "CH1", "CH2", "CH3", "CH4", "CH5", "CH6" }, new int[] { 0, 0, 0, 0, 0, 0 });
     }
 
 
@@ -184,20 +220,20 @@ namespace WRCAvJoyFeeder
       {
         if (serialPort1.IsOpen)
         {
-
-          string data = serialPort1.ReadLine();
-
           // Invokes the delegate on the UI thread, and sends the data that was received to the invoked method.
-
           // ---- The "si_DataReceived" method will be executed on the UI thread which allows populating of the textbox.
-
+          string data = serialPort1.ReadLine();
           this.BeginInvoke(new SetTextDeleg(si_DataReceived), new object[] { data });
         }
       }
-      catch (Exception ex) { MessageBox.Show(ex.Message); }
+      catch (Exception ex) {
+        MessageBox.Show(ex.Message);
+        Console.WriteLine(ex.Message);
+      }
     }
 
 
+    // Function to remap input values to output range
     private int MAP(int inMin, int inMax, int outMin, int outMax, int input)
     {
       if (input > inMax || input < inMin)
@@ -216,28 +252,10 @@ namespace WRCAvJoyFeeder
     }
 
 
-    //private long LMAP(long inMin, long inMax, long outMin, long outMax, long input)
-    //{
-    //    if (input > inMax || input < inMin)
-    //        return -1;
-
-    //    if (outMax == 1 && outMin == 0)
-    //    {
-    //        long d = inMin + ((inMax - inMin) / 2);
-    //        if (input > d)
-    //            return 1;
-    //        else
-    //            return 0;
-    //    }
-
-    //    return (input - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
-    //}
-
-
     private void si_DataReceived(string data)
     {
       string serialDataPre = data.Trim();
-      textBox1.Text = serialDataPre;
+      //textBox1.Text = serialDataPre;
 
       int[] serialData = Array.ConvertAll(serialDataPre.Split(','), int.Parse);
 
@@ -261,86 +279,30 @@ namespace WRCAvJoyFeeder
           {
             case 0:
               Ch1Label.Text = line.ToString();
-              ujoyStick.SetAxis(MAP(1100, 1900, (int)joyMin, (int)joyMax, line), uJoyId, HID_USAGES.HID_USAGE_X);
+              ujoyStick.SetAxis(MAP(1000, 2000, (int)joyMin, (int)joyMax, line), uJoyId, HID_USAGES.HID_USAGE_X);
               break;
             case 1:
               Ch2Label.Text = line.ToString();
-              ujoyStick.SetAxis(MAP(1100, 1900, (int)joyMin, (int)joyMax, line), uJoyId, HID_USAGES.HID_USAGE_RX);
-              ujoyStick.SetAxis(MAP(1100, 1900, (int)joyMin, (int)joyMax, line), uJoyId, HID_USAGES.HID_USAGE_RZ);
-              ujoyStick.SetAxis(MAP(1100, 1900, (int)joyMin, (int)joyMax, line), uJoyId, HID_USAGES.HID_USAGE_SL0);
-              ujoyStick.SetAxis(MAP(1100, 1900, (int)joyMin, (int)joyMax, line), uJoyId, HID_USAGES.HID_USAGE_SL1);
-              ujoyStick.SetAxis(MAP(1100, 1900, (int)joyMin, (int)joyMax, line), uJoyId, HID_USAGES.HID_USAGE_Z);
+              ujoyStick.SetAxis(MAP(1000, 2000, (int)joyMin, (int)joyMax, line), uJoyId, HID_USAGES.HID_USAGE_Y);
               break;
             case 2:
               Ch3Label.Text = line.ToString();
-              ujoyStick.SetAxis(MAP(1100, 1900, (int)joyMin, (int)joyMax, line), uJoyId, HID_USAGES.HID_USAGE_RX);
+              ujoyStick.SetAxis(MAP(1000, 2000, (int)joyMin, (int)joyMax, line), uJoyId, HID_USAGES.HID_USAGE_Z);
               break;
             case 3:
               Ch4Label.Text = line.ToString();
-              ujoyStick.SetAxis(MAP(1100, 1900, (int)joyMin, (int)joyMax, line), uJoyId, HID_USAGES.HID_USAGE_RY);
+              ujoyStick.SetAxis(MAP(1000, 2000, (int)joyMin, (int)joyMax, line), uJoyId, HID_USAGES.HID_USAGE_RZ);
               break;
             case 4:
               Ch5Label.Text = line.ToString();
-              int k = MAP(1100, 1900, 0, 1, line);
-              ujoyStick.SetBtn(Convert.ToBoolean(k), uJoyId, 0);
+              ujoyStick.SetAxis(MAP(1000, 2000, (int)joyMin, (int)joyMax, line), uJoyId, HID_USAGES.HID_USAGE_RY);
               break;
             case 5:
               Ch6Label.Text = line.ToString();
-              int l = MAP(1100, 1900, 0, 1, line);
-              ujoyStick.SetBtn(Convert.ToBoolean(l), uJoyId, 1);
+              int l = MAP(1000, 2000, 0, 1, line);
+              ujoyStick.SetBtn(Convert.ToBoolean(l), uJoyId, 0);
               break;
           }
-
-          //if (c == 0)
-          //{
-          //    //lineJoyY1.Top = MAP(1100, 1900, il, ih, line);
-          //    label1.Text = line.ToString();
-          //    ujoyStick.SetAxis(MAP(1100, 1900, (int)joyMin, (int)joyMax, line), uJoyId, HID_USAGES.HID_USAGE_X);
-          //}
-          //if (c == 1)
-          //{
-          //    //lineJoyX1.Left = MAP(1100, 1900, il, ih, line);
-          //    label2.Text = line.ToString();
-          //    //Console.WriteLine("1: " + MAP(1100, 1900, (int)joyMin, (int)joyMax, line).ToString());
-          //    ujoyStick.SetAxis(MAP(1100, 1900, (int)joyMin, (int)joyMax, line), uJoyId, HID_USAGES.HID_USAGE_RX);
-          //    ujoyStick.SetAxis(MAP(1100, 1900, (int)joyMin, (int)joyMax, line), uJoyId, HID_USAGES.HID_USAGE_RZ);
-          //    ujoyStick.SetAxis(MAP(1100, 1900, (int)joyMin, (int)joyMax, line), uJoyId, HID_USAGES.HID_USAGE_SL0);
-          //    ujoyStick.SetAxis(MAP(1100, 1900, (int)joyMin, (int)joyMax, line), uJoyId, HID_USAGES.HID_USAGE_SL1);
-          //    ujoyStick.SetAxis(MAP(1100, 1900, (int)joyMin, (int)joyMax, line), uJoyId, HID_USAGES.HID_USAGE_Z);
-          //}
-          //if (c == 2)
-          //{
-          //    //lineJoyY2.Top = MAP(1100, 1900, il, ih, line);
-          //    label3.Text = line.ToString();
-
-          //    ujoyStick.SetAxis(MAP(1100, 1900, (int)joyMin, (int)joyMax, line), uJoyId, HID_USAGES.HID_USAGE_RX);
-          //}
-          //if (c == 3)
-          //{
-          //    //lineJoyX2.Left = MAP(1100, 1900, il, ih, line);
-          //    label4.Text = line.ToString();
-          //    ujoyStick.SetAxis(MAP(1100, 1900, (int)joyMin, (int)joyMax, line), uJoyId, HID_USAGES.HID_USAGE_RY);
-          //}
-          //if (c == 4)
-          //{
-          //    label5.Text = line.ToString();
-          //    int l = MAP(1100, 1900, 0, 1, line);
-          //    //if (l == 1)
-          //    //    lightGear1.Image = Properties.Resources.buttonOpen;
-          //    //else
-          //    //    lightGear1.Image = Properties.Resources.buttonClosed;
-          //    ujoyStick.SetBtn(Convert.ToBoolean(l), uJoyId, 0);
-          //}
-          //if (c == 5)
-          //{
-          //    label6.Text = line.ToString();
-          //    int l = MAP(1100, 1900, 0, 1, line);
-          //    //if (l == 1)
-          //    //    lightAux1.Image = Properties.Resources.buttonOpen;
-          //    //else
-          //    //    lightAux1.Image = Properties.Resources.buttonClosed;
-          //    ujoyStick.SetBtn(Convert.ToBoolean(l), uJoyId, 1);
-          //}
 
           c++;
         }
@@ -373,6 +335,7 @@ namespace WRCAvJoyFeeder
         timer.Interval = 1000;
         list_SerialPorts.Items.Add("No ports!");
         list_SerialPorts.SelectedIndex = 0;
+        Console.WriteLine("Warning: No serial ports found!");
         //serialBaud.Text = "";
         list_SerialPorts.Enabled = false;
         serialBaud.Enabled = false;
@@ -408,9 +371,14 @@ namespace WRCAvJoyFeeder
       foreach (string item in names)
       {
         ListViewItem i = new ListViewItem(new string[] { "", item, "nul", "nul", "nul" });
+        
         if (inverse[c] == 1)
+        {
           i.Checked = true;
+        }
+
         listView1.Items.Add(i);
+
         c++;
       }
     }
@@ -419,15 +387,15 @@ namespace WRCAvJoyFeeder
     // Timer handler function
     private void timer_Tick(object sender, EventArgs e)
     {
-      //Console.WriteLine("Timer: Tick! Check for com port change");
+      Console.WriteLine("Debug: Timer-Tick! Checking for com port changes.");
       comRefresh();
     }
 
 
-    //private void openGamePad_Click(object sender, EventArgs e)
-    //{
-    //    System.Diagnostics.Process.Start("rundll32.exe", "shell32.dll,Control_RunDLL joy.cpl");
-    //}
+    private void calBtn_Click(object sender, EventArgs e)
+    {
+        System.Diagnostics.Process.Start("rundll32.exe", "shell32.dll,Control_RunDLL joy.cpl");
+    }
 
 
     // Close button handler function
@@ -465,6 +433,34 @@ namespace WRCAvJoyFeeder
       }
 
       base.WndProc(ref m);
+    }
+
+
+    // Hide window from ALT+TAB selector
+    //protected override CreateParams CreateParams
+    //{
+    //  get
+    //  {
+    //    CreateParams pm = base.CreateParams;
+    //    pm.ExStyle |= 0x80;
+    //    return pm;
+    //  }
+    //}
+
+    private void calBtn_MouseEnter(object sender, EventArgs e)
+    {
+      calBtn.ForeColor = Color.White;
+    }
+
+    private void calBtn_MouseLeave(object sender, EventArgs e)
+    {
+      calBtn.ForeColor = Color.Navy;
+
+    }
+
+    private void helpBtn_Click(object sender, EventArgs e)
+    {
+      System.Diagnostics.Process.Start("http://github.com/wireless-rc-adapter/wireless-rc-adapter/wiki");
     }
   }
 }
